@@ -25773,6 +25773,27 @@ var Form = function Form(props) {
 
 var _default = Form;
 exports.default = _default;
+},{"react":"../node_modules/react/index.js"}],"components/Results.jsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
+var Results = function Results(props) {
+  var results = props.results;
+  return _react.default.createElement(_react.Fragment, null, results && results.map(function (result) {
+    return _react.default.createElement("p", null, result.description);
+  }));
+};
+
+var _default = Results;
+exports.default = _default;
 },{"react":"../node_modules/react/index.js"}],"../node_modules/axios/lib/helpers/bind.js":[function(require,module,exports) {
 'use strict';
 
@@ -27430,6 +27451,8 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _Form = _interopRequireDefault(require("./Form.jsx"));
 
+var _Results = _interopRequireDefault(require("./Results.jsx"));
+
 var _axios = _interopRequireDefault(require("axios"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -27455,6 +27478,11 @@ var App = function App() {
       search = _useState4[0],
       setSearch = _useState4[1];
 
+  var _useState5 = (0, _react.useState)(1),
+      _useState6 = _slicedToArray(_useState5, 2),
+      page = _useState6[0],
+      setPage = _useState6[1];
+
   var updateSearch = function updateSearch(e) {
     setSearch(e.target.value);
   };
@@ -27462,7 +27490,7 @@ var App = function App() {
   var updateResults = function updateResults(e) {
     e.preventDefault();
 
-    _axios.default.get("/events?q=".concat(search)).then(function (_ref) {
+    _axios.default.get("/events?q=".concat(search, "&_page=").concat(page)).then(function (_ref) {
       var data = _ref.data;
       setResults(data);
     });
@@ -27471,12 +27499,14 @@ var App = function App() {
   return _react.default.createElement(_react.Fragment, null, _react.default.createElement(_Form.default, {
     updateSearch: updateSearch,
     updateResults: updateResults
-  }), ";");
+  }), _react.default.createElement(_Results.default, {
+    results: results
+  }));
 };
 
 var _default = App;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","./Form.jsx":"components/Form.jsx","axios":"../node_modules/axios/index.js"}],"index.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","./Form.jsx":"components/Form.jsx","./Results.jsx":"components/Results.jsx","axios":"../node_modules/axios/index.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));

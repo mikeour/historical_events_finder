@@ -25794,6 +25794,27 @@ var Results = function Results(props) {
 
 var _default = Results;
 exports.default = _default;
+},{"react":"../node_modules/react/index.js"}],"components/MoreButton.jsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var MoreButton = function MoreButton(props) {
+  var updateWithNextResults = props.updateWithNextResults;
+  return _react.default.createElement("button", {
+    onClick: updateWithNextResults
+  }, "Load more entries");
+};
+
+var _default = MoreButton;
+exports.default = _default;
 },{"react":"../node_modules/react/index.js"}],"../node_modules/axios/lib/helpers/bind.js":[function(require,module,exports) {
 'use strict';
 
@@ -27453,6 +27474,8 @@ var _Form = _interopRequireDefault(require("./Form.jsx"));
 
 var _Results = _interopRequireDefault(require("./Results.jsx"));
 
+var _MoreButton = _interopRequireDefault(require("./MoreButton.jsx"));
+
 var _axios = _interopRequireDefault(require("axios"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -27475,13 +27498,18 @@ var App = function App() {
 
   var _useState3 = (0, _react.useState)(""),
       _useState4 = _slicedToArray(_useState3, 2),
-      search = _useState4[0],
-      setSearch = _useState4[1];
+      nextResults = _useState4[0],
+      setNextResults = _useState4[1];
 
-  var _useState5 = (0, _react.useState)(1),
+  var _useState5 = (0, _react.useState)(""),
       _useState6 = _slicedToArray(_useState5, 2),
-      page = _useState6[0],
-      setPage = _useState6[1];
+      search = _useState6[0],
+      setSearch = _useState6[1];
+
+  var _useState7 = (0, _react.useState)(1),
+      _useState8 = _slicedToArray(_useState7, 2),
+      page = _useState8[0],
+      setPage = _useState8[1];
 
   var updateSearch = function updateSearch(e) {
     setSearch(e.target.value);
@@ -27493,7 +27521,27 @@ var App = function App() {
     _axios.default.get("/events?q=".concat(search, "&_page=").concat(page)).then(function (_ref) {
       var data = _ref.data;
       setResults(data);
+    }).then(function () {
+      getNextResults();
     });
+  };
+
+  var getNextResults = function getNextResults() {
+    _axios.default.get("/events?q=".concat(search, "&_page=").concat(page + 1)).then(function (_ref2) {
+      var data = _ref2.data;
+
+      if (data) {
+        setNextResults(data);
+      } else {
+        setNextResults(null);
+      }
+    });
+  };
+
+  var updateWithNextResults = function updateWithNextResults() {
+    setResults(nextResults);
+    setPage(page + 1);
+    getNextResults();
   };
 
   return _react.default.createElement(_react.Fragment, null, _react.default.createElement(_Form.default, {
@@ -27501,12 +27549,14 @@ var App = function App() {
     updateResults: updateResults
   }), _react.default.createElement(_Results.default, {
     results: results
+  }), nextResults && _react.default.createElement(_MoreButton.default, {
+    updateWithNextResults: updateWithNextResults
   }));
 };
 
 var _default = App;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","./Form.jsx":"components/Form.jsx","./Results.jsx":"components/Results.jsx","axios":"../node_modules/axios/index.js"}],"index.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","./Form.jsx":"components/Form.jsx","./Results.jsx":"components/Results.jsx","./MoreButton.jsx":"components/MoreButton.jsx","axios":"../node_modules/axios/index.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));

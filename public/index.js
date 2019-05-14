@@ -25773,7 +25773,7 @@ var Form = function Form(props) {
 
 var _default = Form;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js"}],"components/Results.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js"}],"components/Entry.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -25785,16 +25785,64 @@ var _react = _interopRequireWildcard(require("react"));
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var Entry = function Entry(props) {
+  var result = props.result;
+
+  var _useState = (0, _react.useState)(null),
+      _useState2 = _slicedToArray(_useState, 2),
+      editedText = _useState2[0],
+      setEditedText = _useState2[1];
+
+  var text = editedText || result.description;
+
+  var editText = function editText() {
+    var result = window.prompt("Edited text?", text);
+    setEditedText(result);
+  };
+
+  return _react.default.createElement(_react.Fragment, null, _react.default.createElement("p", null, text), _react.default.createElement("button", {
+    onClick: editText
+  }, "x"));
+};
+
+var _default = Entry;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js"}],"components/Results.jsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _Entry = _interopRequireDefault(require("./Entry.jsx"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+
 var Results = function Results(props) {
   var results = props.results;
   return _react.default.createElement(_react.Fragment, null, results && results.map(function (result) {
-    return _react.default.createElement("p", null, result.description);
+    return _react.default.createElement(_Entry.default, {
+      result: result
+    });
   }));
 };
 
 var _default = Results;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js"}],"components/MoreButton.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","./Entry.jsx":"components/Entry.jsx"}],"components/MoreButton.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -25810,7 +25858,7 @@ var MoreButton = function MoreButton(props) {
   var updateWithNextResults = props.updateWithNextResults;
   return _react.default.createElement("button", {
     onClick: updateWithNextResults
-  }, "Load more entries");
+  }, "Load more entries!!!");
 };
 
 var _default = MoreButton;
@@ -27506,10 +27554,15 @@ var App = function App() {
       search = _useState6[0],
       setSearch = _useState6[1];
 
-  var _useState7 = (0, _react.useState)(1),
+  var _useState7 = (0, _react.useState)(""),
       _useState8 = _slicedToArray(_useState7, 2),
-      page = _useState8[0],
-      setPage = _useState8[1];
+      total = _useState8[0],
+      setTotal = _useState8[1];
+
+  var _useState9 = (0, _react.useState)(1),
+      _useState10 = _slicedToArray(_useState9, 2),
+      page = _useState10[0],
+      setPage = _useState10[1];
 
   var updateSearch = function updateSearch(e) {
     setSearch(e.target.value);
@@ -27517,37 +27570,54 @@ var App = function App() {
 
   var updateResults = function updateResults(e) {
     e.preventDefault();
+    console.log("updateResults ran");
 
     _axios.default.get("/events?q=".concat(search, "&_page=").concat(page)).then(function (_ref) {
       var data = _ref.data;
+      console.log("updateResults data", data);
       setResults(data);
     }).then(function () {
+      setPage(page + 1);
       getNextResults();
+    }).then(function () {
+      getTotalResults();
     });
   };
 
   var getNextResults = function getNextResults() {
+    console.log("getNextResults ran");
+
     _axios.default.get("/events?q=".concat(search, "&_page=").concat(page + 1)).then(function (_ref2) {
       var data = _ref2.data;
 
-      if (data) {
+      if (data.length > 0) {
+        console.log("data exists", data);
         setNextResults(data);
       } else {
+        console.log("data does not exist");
         setNextResults(null);
       }
     });
   };
 
   var updateWithNextResults = function updateWithNextResults() {
+    console.log("updateWithNextResults ran");
     setResults(nextResults);
     setPage(page + 1);
     getNextResults();
   };
 
+  var getTotalResults = function getTotalResults() {
+    _axios.default.get("/events?q=".concat(search)).then(function (_ref3) {
+      var data = _ref3.data;
+      setTotal(data.length);
+    });
+  };
+
   return _react.default.createElement(_react.Fragment, null, _react.default.createElement(_Form.default, {
     updateSearch: updateSearch,
     updateResults: updateResults
-  }), _react.default.createElement(_Results.default, {
+  }), total && _react.default.createElement("p", null, "Total search results: ", total), _react.default.createElement(_Results.default, {
     results: results
   }), nextResults && _react.default.createElement(_MoreButton.default, {
     updateWithNextResults: updateWithNextResults
@@ -27596,7 +27666,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57230" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57343" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

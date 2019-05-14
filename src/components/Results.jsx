@@ -1,12 +1,14 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
+import Entry from "./Entry.jsx";
 
 const Results = props => {
   const { results } = props;
+
   return (
     <Fragment>
       {results &&
         results.map(result => {
-          return <p>{result.description}</p>;
+          return <Entry result={result} />;
         })}
     </Fragment>
   );

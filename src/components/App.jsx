@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { Fragment, useState, useCallback } from "react";
 import Form from "./Form.jsx";
 import Results from "./Results.jsx";
 import MoreButton from "./MoreButton.jsx";
@@ -8,8 +8,9 @@ const App = () => {
   const [results, setResults] = useState("");
   const [nextResults, setNextResults] = useState("");
   const [search, setSearch] = useState("");
-  const [total, setTotal] = useState("");
+  const [totalResults, setTotalResults] = useState("");
   const [page, setPage] = useState(1);
+  const pageIncrement = useCallback(() => page + 1, [page]);
 
   const updateSearch = e => {
     setSearch(e.target.value);
@@ -25,7 +26,7 @@ const App = () => {
         setResults(data);
       })
       .then(() => {
-        setPage(page + 1);
+        setPage(pageIncrement);
         getNextResults();
       })
       .then(() => {
@@ -49,20 +50,21 @@ const App = () => {
   const updateWithNextResults = () => {
     console.log("updateWithNextResults ran");
     setResults(nextResults);
-    setPage(page + 1);
+    setPage(pageIncrement);
     getNextResults();
   };
 
   const getTotalResults = () => {
     axios.get(`/events?q=${search}`).then(({ data }) => {
-      setTotal(data.length);
+      setTotalResults(data.length);
     });
   };
 
   return (
     <Fragment>
+      <h6>Historical Events Finder</h6>
       <Form updateSearch={updateSearch} updateResults={updateResults} />
-      {total && <p>Total search results: {total}</p>}
+      {totalResults && <p>Total search results: {totalResults}</p>}
       <Results results={results} />
       {nextResults && (
         <MoreButton updateWithNextResults={updateWithNextResults} />

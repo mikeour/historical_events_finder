@@ -18,11 +18,9 @@ const App = () => {
 
   const updateResults = e => {
     e.preventDefault();
-    console.log("updateResults ran");
     axios
       .get(`/events?q=${search}&_page=${page}`)
       .then(({ data }) => {
-        console.log("updateResults data", data);
         setResults(data);
       })
       .then(() => {
@@ -35,20 +33,16 @@ const App = () => {
   };
 
   const getNextResults = () => {
-    console.log("getNextResults ran");
     axios.get(`/events?q=${search}&_page=${page + 1}`).then(({ data }) => {
       if (data.length > 0) {
-        console.log("data exists", data);
         setNextResults(data);
       } else {
-        console.log("data does not exist");
         setNextResults(null);
       }
     });
   };
 
   const updateWithNextResults = () => {
-    console.log("updateWithNextResults ran");
     setResults(nextResults);
     setPage(pageIncrement);
     getNextResults();
@@ -62,7 +56,7 @@ const App = () => {
 
   return (
     <Fragment>
-      <h6>Historical Events Finder</h6>
+      <h2>Historical Events Finder</h2>
       <Form updateSearch={updateSearch} updateResults={updateResults} />
       {totalResults && <p>Total search results: {totalResults}</p>}
       <Results results={results} />

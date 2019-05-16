@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment } from "react";
 import Entry from "./Entry.jsx";
 
 const Results = props => {
@@ -6,10 +6,7 @@ const Results = props => {
 
   return (
     <Fragment>
-      {results &&
-        results.map(result => {
-          return <Entry result={result} />;
-        })}
+      {results && results.map(result => <Entry result={result} />)}
     </Fragment>
   );
 };

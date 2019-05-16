@@ -25756,13 +25756,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _react = _interopRequireWildcard(require("react"));
+var _react = _interopRequireDefault(require("react"));
 
-function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Form = function Form(props) {
-  var updateResults = props.updateResults,
-      updateSearch = props.updateSearch;
+const Form = props => {
+  const {
+    updateResults,
+    updateSearch
+  } = props;
   return _react.default.createElement("form", {
     onSubmit: updateResults
   }, _react.default.createElement("input", {
@@ -28138,56 +28140,35 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
-
-function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-var Entry = function Entry(props) {
-  var result = props.result;
-
-  var _useState = (0, _react.useState)(null),
-      _useState2 = _slicedToArray(_useState, 2),
-      editedText = _useState2[0],
-      setEditedText = _useState2[1];
-
-  var _useState3 = (0, _react.useState)(false),
-      _useState4 = _slicedToArray(_useState3, 2),
-      showModal = _useState4[0],
-      setShowModal = _useState4[1];
-
-  var _useState5 = (0, _react.useState)(""),
-      _useState6 = _slicedToArray(_useState5, 2),
-      modalText = _useState6[0],
-      setModalText = _useState6[1];
-
-  var text = modalText || result.description; // const editText = () => {
+const Entry = props => {
+  const {
+    result
+  } = props;
+  const [editedText, setEditedText] = (0, _react.useState)(null);
+  const [showModal, setShowModal] = (0, _react.useState)(false);
+  const [modalText, setModalText] = (0, _react.useState)("");
+  const text = modalText || result.description; // const editText = () => {
   //   const userEdit = window.prompt("What would you like to edit?", text);
   //   setEditedText(userEdit);
   // };
 
-  var modalStyle = {
+  const modalStyle = {
     content: {
       display: "inline-block",
       backgroundColor: "goldenrod"
     }
   };
 
-  var editText = function editText() {
-    setShowModal(function (prevBool) {
-      return !prevBool;
-    });
+  const editText = () => {
+    setShowModal(prevBool => !prevBool);
   };
 
-  var updateModalText = function updateModalText(e) {
+  const updateModalText = e => {
     e.preventDefault();
     setModalText(e.target.value);
   };
 
-  var updateText = function updateText(e) {
+  const updateText = e => {
     setEditedText(modalText);
   };
 
@@ -28226,13 +28207,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
-var Results = function Results(props) {
-  var results = props.results;
-  return _react.default.createElement(_react.Fragment, null, results && results.map(function (result) {
-    return _react.default.createElement(_Entry.default, {
-      result: result
-    });
-  }));
+const Results = props => {
+  const {
+    results
+  } = props;
+  return _react.default.createElement(_react.Fragment, null, results && results.map(result => _react.default.createElement(_Entry.default, {
+    result: result
+  })));
 };
 
 var _default = Results;
@@ -28249,8 +28230,10 @@ var _react = _interopRequireDefault(require("react"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var MoreButton = function MoreButton(props) {
-  var updateWithNextResults = props.updateWithNextResults;
+const MoreButton = props => {
+  const {
+    updateWithNextResults
+  } = props;
   return _react.default.createElement("button", {
     onClick: updateWithNextResults
   }, "Load more entries!!!");
@@ -29925,95 +29908,60 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj.default = obj; return newObj; } }
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+const App = () => {
+  const [results, setResults] = (0, _react.useState)("");
+  const [nextResults, setNextResults] = (0, _react.useState)("");
+  const [search, setSearch] = (0, _react.useState)("");
+  const [totalResults, setTotalResults] = (0, _react.useState)("");
+  const [page, setPage] = (0, _react.useState)(1);
+  const pageIncrement = (0, _react.useCallback)(() => page + 1, [page]);
 
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
-
-function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-var App = function App() {
-  var _useState = (0, _react.useState)(""),
-      _useState2 = _slicedToArray(_useState, 2),
-      results = _useState2[0],
-      setResults = _useState2[1];
-
-  var _useState3 = (0, _react.useState)(""),
-      _useState4 = _slicedToArray(_useState3, 2),
-      nextResults = _useState4[0],
-      setNextResults = _useState4[1];
-
-  var _useState5 = (0, _react.useState)(""),
-      _useState6 = _slicedToArray(_useState5, 2),
-      search = _useState6[0],
-      setSearch = _useState6[1];
-
-  var _useState7 = (0, _react.useState)(""),
-      _useState8 = _slicedToArray(_useState7, 2),
-      totalResults = _useState8[0],
-      setTotalResults = _useState8[1];
-
-  var _useState9 = (0, _react.useState)(1),
-      _useState10 = _slicedToArray(_useState9, 2),
-      page = _useState10[0],
-      setPage = _useState10[1];
-
-  var pageIncrement = (0, _react.useCallback)(function () {
-    return page + 1;
-  }, [page]);
-
-  var updateSearch = function updateSearch(e) {
+  const updateSearch = e => {
     setSearch(e.target.value);
   };
 
-  var updateResults = function updateResults(e) {
+  const updateResults = e => {
     e.preventDefault();
-    console.log("updateResults ran");
 
-    _axios.default.get("/events?q=".concat(search, "&_page=").concat(page)).then(function (_ref) {
-      var data = _ref.data;
-      console.log("updateResults data", data);
+    _axios.default.get(`/events?q=${search}&_page=${page}`).then(({
+      data
+    }) => {
       setResults(data);
-    }).then(function () {
+    }).then(() => {
       setPage(pageIncrement);
       getNextResults();
-    }).then(function () {
+    }).then(() => {
       getTotalResults();
     });
   };
 
-  var getNextResults = function getNextResults() {
-    console.log("getNextResults ran");
-
-    _axios.default.get("/events?q=".concat(search, "&_page=").concat(page + 1)).then(function (_ref2) {
-      var data = _ref2.data;
-
+  const getNextResults = () => {
+    _axios.default.get(`/events?q=${search}&_page=${page + 1}`).then(({
+      data
+    }) => {
       if (data.length > 0) {
-        console.log("data exists", data);
         setNextResults(data);
       } else {
-        console.log("data does not exist");
         setNextResults(null);
       }
     });
   };
 
-  var updateWithNextResults = function updateWithNextResults() {
-    console.log("updateWithNextResults ran");
+  const updateWithNextResults = () => {
     setResults(nextResults);
     setPage(pageIncrement);
     getNextResults();
   };
 
-  var getTotalResults = function getTotalResults() {
-    _axios.default.get("/events?q=".concat(search)).then(function (_ref3) {
-      var data = _ref3.data;
+  const getTotalResults = () => {
+    _axios.default.get(`/events?q=${search}`).then(({
+      data
+    }) => {
       setTotalResults(data.length);
     });
   };
 
-  return _react.default.createElement(_react.Fragment, null, _react.default.createElement("h6", null, "Historical Events Finder"), _react.default.createElement(_Form.default, {
+  return _react.default.createElement(_react.Fragment, null, _react.default.createElement("h2", null, "Historical Events Finder"), _react.default.createElement(_Form.default, {
     updateSearch: updateSearch,
     updateResults: updateResults
   }), totalResults && _react.default.createElement("p", null, "Total search results: ", totalResults), _react.default.createElement(_Results.default, {
@@ -30030,13 +29978,13 @@ exports.default = _default;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _reactDom = _interopRequireDefault(require("react-dom"));
+var _reactDom = require("react-dom");
 
 var _App = _interopRequireDefault(require("./components/App.jsx"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-_reactDom.default.render(_react.default.createElement(_App.default, null), document.getElementById('root'));
+(0, _reactDom.render)(_react.default.createElement(_App.default, null), document.getElementById("root"));
 },{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./components/App.jsx":"components/App.jsx"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -30065,7 +30013,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57343" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50125" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

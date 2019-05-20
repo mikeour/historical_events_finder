@@ -20,6 +20,7 @@
     "parcel-bundler": "^1.12.3",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-modal": "^3.8.1"
+    "react-modal": "^3.8.1",
+    "react-paginate": "^6.3.0"
   }
 }

@@ -8,11 +8,6 @@ const Entry = props => {
   const [modalText, setModalText] = useState("");
   const text = modalText || result.description;
 
-  // const editText = () => {
-  //   const userEdit = window.prompt("What would you like to edit?", text);
-  //   setEditedText(userEdit);
-  // };
-
   const modalStyle = {
     content: {
       display: "inline-block",

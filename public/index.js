@@ -28147,11 +28147,7 @@ const Entry = props => {
   const [editedText, setEditedText] = (0, _react.useState)(null);
   const [showModal, setShowModal] = (0, _react.useState)(false);
   const [modalText, setModalText] = (0, _react.useState)("");
-  const text = modalText || result.description; // const editText = () => {
-  //   const userEdit = window.prompt("What would you like to edit?", text);
-  //   setEditedText(userEdit);
-  // };
-
+  const text = modalText || result.description;
   const modalStyle = {
     content: {
       display: "inline-block",
@@ -29910,9 +29906,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 
 const App = () => {
   const [results, setResults] = (0, _react.useState)("");
-  const [nextResults, setNextResults] = (0, _react.useState)("");
   const [search, setSearch] = (0, _react.useState)("");
-  const [totalResults, setTotalResults] = (0, _react.useState)("");
   const [page, setPage] = (0, _react.useState)(1);
   const pageIncrement = (0, _react.useCallback)(() => page + 1, [page]);
 
@@ -29923,51 +29917,19 @@ const App = () => {
   const updateResults = e => {
     e.preventDefault();
 
-    _axios.default.get(`/events?q=${search}&_page=${page}`).then(({
+    _axios.default.get(`/events/${search}`).then(({
       data
     }) => {
-      setResults(data);
-    }).then(() => {
-      setPage(pageIncrement);
-      getNextResults();
-    }).then(() => {
-      getTotalResults();
-    });
-  };
-
-  const getNextResults = () => {
-    _axios.default.get(`/events?q=${search}&_page=${page + 1}`).then(({
-      data
-    }) => {
-      if (data.length > 0) {
-        setNextResults(data);
-      } else {
-        setNextResults(null);
-      }
-    });
-  };
-
-  const updateWithNextResults = () => {
-    setResults(nextResults);
-    setPage(pageIncrement);
-    getNextResults();
-  };
-
-  const getTotalResults = () => {
-    _axios.default.get(`/events?q=${search}`).then(({
-      data
-    }) => {
-      setTotalResults(data.length);
+      console.log("data ", data);
+      setResults(data.results);
     });
   };
 
   return _react.default.createElement(_react.Fragment, null, _react.default.createElement("h2", null, "Historical Events Finder"), _react.default.createElement(_Form.default, {
     updateSearch: updateSearch,
     updateResults: updateResults
-  }), totalResults && _react.default.createElement("p", null, "Total search results: ", totalResults), _react.default.createElement(_Results.default, {
+  }), _react.default.createElement(_Results.default, {
     results: results
-  }), nextResults && _react.default.createElement(_MoreButton.default, {
-    updateWithNextResults: updateWithNextResults
   }));
 };
 
